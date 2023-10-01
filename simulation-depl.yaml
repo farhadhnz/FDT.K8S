@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulation-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simulation
+  template:
+    metadata:
+      labels:
+        app: simulation
+    spec:
+      containers:
+        - name: simulation
+          image: farhadh/digitaltwin-sim:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simulation-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: simulation
+  ports:
+  - name: simulation
+    protocol: TCP
+    port: 80
+    targetPort: 80
